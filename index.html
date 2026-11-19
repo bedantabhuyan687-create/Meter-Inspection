@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#14532d">
+<meta name="description" content="Offline Meter QR Inspection">
+<link rel="manifest" href="manifest.webmanifest">
+<title>Meter QR Inspection</title>
+<link rel="stylesheet" href="styles.css">
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+<header><div><h1>Meter QR Inspection</h1><p>Offline field inspection • Batch of 200</p></div><span id="connectionTag">Ready</span></header>
+<main>
+<section class="panel camera-panel">
+  <div class="section-head"><h2>1. QR Scanner</h2><span id="cameraState">Camera stopped</span></div>
+  <div class="video-wrap">
+    <video id="video" playsinline muted></video>
+    <div class="scan-frame"><i></i></div>
+    <div id="cameraMessage">Tap “Start Camera” to begin automatic QR scanning.</div>
+  </div>
+  <div class="button-row">
+    <button id="startCamera" class="primary">Start Camera</button>
+    <button id="switchCamera" class="secondary" disabled>Switch Front / Back</button>
+    <button id="stopCamera" class="secondary" disabled>Stop</button>
+  </div>
+  <p class="hint">Keep the QR code inside the frame. A detected QR is saved automatically. Duplicate QR codes are skipped.</p>
+</section>
+
+<section class="panel">
+  <div class="section-head"><h2>2. Inspection Details</h2><span id="countTag">0 / 200</span></div>
+  <div class="grid">
+    <label>Team Name <input id="teamName" placeholder="Enter team name" required></label>
+    <label>Project
+      <select id="project"><option value="">Select Project</option><option>PKG5</option><option>PKG4</option><option>PKG3</option><option>PKG2</option></select>
+    </label>
+    <label>Store Name <input id="storeName" placeholder="Enter store name"></label>
+    <label>Meter Sr No <input id="meterSrNo" placeholder="Auto-filled from QR"></label>
+    <label>Meter Type
+      <select id="meterType"><option value="">Select Meter Type</option><option>1PH</option><option>3PH</option><option>3PH 5A/100</option><option>3PH 5A/200</option><option>LTCT</option></select>
+    </label>
+    <label>Meter Display
+      <select id="meterDisplay"><option value="">Select</option><option>On</option><option>Off</option></select>
+    </label>
+    <label>Output Status
+      <select id="outputStatus"><option value="">Select</option><option>Ok</option><option>Not Ok</option></select>
+    </label>
+    <label>Communication Status
+      <select id="communicationStatus"><option value="">Select</option><option>Yes</option><option>No</option></select>
+    </label>
+    <label>Relay Status
+      <select id="relayStatus"><option value="">Select</option><option>Closed</option><option>Open</option><option>Not ok</option></select>
+    </label>
+    <label>Communication Type
+      <select id="communicationType"><option value="">Select</option><option>RF</option><option>GPRS</option></select>
+    </label>
+    <label>MFG Date (MM/YYYY) <input id="mfgDate" placeholder="MM/YYYY" inputmode="numeric"></label>
+    <label>Final Remarks <input id="finalRemarks" placeholder="Enter final remarks"></label>
+    <label class="full">Others Remarks <textarea id="othersRemarks" rows="2" placeholder="Additional remarks"></textarea></label>
+  </div>
+  <div class="button-row">
+    <button id="saveRecord" class="primary">Save Record</button>
+    <button id="clearForm" class="secondary">Clear Form</button>
+  </div>
+  <p class="hint">QR scan fills Meter Sr No and saves automatically using the currently selected Team and Project. Complete the other inspection fields and tap Save Record to update the saved entry.</p>
+</section>
+
+<section class="panel">
+  <div class="section-head"><h2>3. Batch Records</h2><span id="batchStatus">Batch 1</span></div>
+  <div class="progress"><div id="progressBar"></div></div>
+  <p id="batchMessage" class="hint">0 records saved. Maximum 200 records per batch.</p>
+  <div class="button-row">
+    <button id="downloadExcel" class="primary">Download Excel</button>
+    <button id="downloadClear" class="danger">Download & Start New Batch</button>
+  </div>
+  <div class="table-wrap"><table><thead><tr><th>#</th><th>Meter Sr No</th><th>Project</th><th>Team</th><th>Meter Type</th></tr></thead><tbody id="recordRows"><tr><td colspan="5">No records yet</td></tr></tbody></table></div>
+</section>
+</main>
+<footer>Data is saved on this device. Export your Excel file regularly and do not clear browser data before downloading.</footer>
+<div id="toast" role="status"></div>
+<script src="app.js"></script>
+</body>
+</html>
