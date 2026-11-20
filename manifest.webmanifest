@@ -1,0 +1,9 @@
+{
+ "name":"Meter QR Inspection",
+ "short_name":"Meter Inspect",
+ "start_url":"./index.html",
+ "display":"standalone",
+ "background_color":"#f1f5f2",
+ "theme_color":"#14532d",
+ "description":"Offline meter QR inspection and Excel export"
+}
